@@ -3,7 +3,7 @@
 [![demo](https://img.shields.io/badge/Demo-orange?logo=audacity&logoColor=white)](https://xiaobin-rong.github.io/gap-urgenet_demo/)
 [![models](https://img.shields.io/badge/🤗-Models-yellow)](https://huggingface.co/Xiaobin-Rong/gap-urgenet)
 
-This is the official implementation of GAP-URGENet, a state-of-the-art (SOTA) universal speech enhancement (USE) model.
+This is the official implementation of GAP-URGENet, a SOTA universal speech enhancement (USE) model.
 
 ![GAP-URGENet framework](figs/model_framework.png)
 
