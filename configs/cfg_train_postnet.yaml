@@ -1,0 +1,111 @@
+encoder_config:
+  wavlm_ckpt_path: "/data/hdd0/xiaobin.rong/pretrained/UniPASE/DeWavLM-Omni.pt"
+  output_layer: [1, 24]
+
+adapter_config:
+  cfg_yaml: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_adapter_s2_2025-10-24-16h09m/config.yaml"
+  model_ckpt: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_adapter_s2_2025-10-24-16h09m/checkpoints/best_model_040.tar"
+
+decoder_config:
+  cfg_yaml: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_vocoder_wavlmL1_s2_2025-10-23-17h53m/config.yaml"
+  model_ckpt: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_vocoder_wavlmL1_s2_2025-10-23-17h53m/checkpoints/model_100.tar"
+
+predictor_config:
+  cfg_yaml: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_predictor_tfgrid_2025-11-01-01h13m/config.yaml"
+  model_ckpt: "/data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_predictor_tfgrid_gj_2025-11-03-23h02m/checkpoints/model_211_ft.tar"
+
+postnet_config:
+  n_imics: 2
+  n_layers: 5
+  lstm_hidden_units: 100
+  attn_n_head: 4
+  attn_qk_output_channel: 2
+  emb_dim: 96
+
+stft_config:
+  n_fft: 1280
+  hop_length: 320
+  win_length: 1280
+
+discriminator_config:
+  mpd:
+    mpd_reshapes: [2, 3, 5, 7, 11]
+  mbd:
+    mbd_fft_sizes: [2048, 1024, 512]
+
+DDP:
+  world_size: 4
+
+optimizer:
+  lr: 1e-6
+
+scheduler:
+  warmup_steps: 5000  # 10 epochs
+  decay_until_step: 60000  # 50 + 10 epochs
+  max_lr: 4e-6
+  min_lr: 1e-6
+
+loss:
+  sampling_rate: 48000
+  n_mels: [5, 10, 20, 40, 80, 160, 320]
+  window_lengths: [32, 64, 128, 256, 512, 1024, 2048]
+  # n_mels: [15, 30, 60, 120, 240, 480, 960]
+  # window_lengths: [96, 192, 384, 768, 1536, 3072, 6144]
+  mag_weight: 0.0
+  log_weight: 1.0
+  pow: 1.0
+  weight: 1.0
+  window_type: "hann"
+
+coeff:
+  recons: 15
+  adv: 1
+  feat: 1
+
+samplerate: 
+  48000
+  
+train_dataset:
+  cfg_yaml: configs/simulation_train.yaml
+  meta_tsv: meta_lite_new.tsv
+  wav_len: 4
+  num_per_epoch: 4000
+  random_start: True
+  snr_range: [-5, 15]
+  default_fs: 48000
+  selected_fs: [48000]
+  selected_set: all
+  mode: train
+
+train_dataloader:
+  batch_size: 1  # 4 for s1, 3 for s2
+  num_workers: 4
+  drop_last: True
+  pin_memory: True
+
+validation_dataset:
+  cfg_yaml: configs/simulation_validation.yaml
+  meta_tsv: meta.tsv
+  wav_len: 4
+  num_per_epoch: 800
+  random_start: False
+  snr_range: [-5, 15]
+  default_fs: 48000
+  selected_fs: [48000]
+  selected_set: all
+  mode: validation
+
+validation_dataloader:
+  batch_size: 1
+  num_workers: 4
+  drop_last: True
+  pin_memory: True
+
+trainer:
+  epochs: 10
+  save_checkpoint_interval: 1
+  clip_grad_norm_value: 3.0
+  exp_path: /data/hdd0/xiaobin.rong/experiments/challenge/exp_urgent3/exp_postnet_emb96_lstm100_fusion_s2_ft_select
+  resume: True
+  resume_datetime: 2025-11-08-17h01m
+

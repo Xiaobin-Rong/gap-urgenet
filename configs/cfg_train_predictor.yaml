@@ -1,0 +1,74 @@
+predictor_config:
+  fft_len: 0.032
+  hop_len: 0.016
+  win_len: 0.032
+  n_srcs: 1
+  n_imics: 1
+  n_layers: 10
+  lstm_hidden_units: 200
+  attn_n_head: 8
+  attn_qk_output_channel: 4
+  emb_dim: 96
+  emb_ks: 4
+  emb_hs: 1
+  activation: prelu
+  eps: 1e-5
+
+DDP:
+  world_size: 2  # not used
+
+optimizer:
+  lr: 0.001  # not used
+
+scheduler:
+  warmup_steps: 10000  # 20 epochs
+  decay_until_step: 110000  # 220 epochs
+  max_lr: 1e-4
+  min_lr: 1e-6
+
+samplerate:
+  16000
+
+train_dataset:
+  cfg_yaml: configs/simulation_train.yaml
+  wav_len: 4
+  num_per_epoch: 4000
+  random_start: True
+  snr_range: [-5, 15]
+  default_fs: 16000
+  selected_fs: [16000, 22050, 24000, 32000, 44100, 48000]
+  selected_set: all
+  # selected_set: ['dns5_fullband', 'commonvoice', 'mls_segments','ears', 'ESD', 'NNCES_filtered', 'SeniorTalk_filtered', 'VocalSet']
+  mode: train
+
+train_dataloader: 
+  batch_size: 1
+  num_workers: 4
+  drop_last: True
+  pin_memory: True
+
+validation_dataset:
+  cfg_yaml: configs/simulation_validation.yaml
+  wav_len: 4
+  num_per_epoch: 1000
+  random_start: False
+  snr_range: [-5, 15]
+  default_fs: 16000
+  selected_fs: [16000, 22050, 24000, 32000, 44100, 48000]
+  selected_set: all
+  # selected_set: ['commonvoice', 'mls_segments','ears', 'ESD', 'NNCES', 'SeniorTalk', 'VocalSet']
+  mode: validation
+
+validation_dataloader: 
+  batch_size: 1
+  num_workers: 4
+  drop_last: True
+  pin_memory: True
+
+trainer:
+  epochs: 200
+  save_checkpoint_interval: 10
+  clip_grad_norm_value: 3.0
+  exp_path: /data/hdd0/xiaobin.rong/experiments/study_lm/exp_GAP-URGENet/exp_predictor
+  resume: False
+  resume_datetime: 2025-09-27-23h05m
