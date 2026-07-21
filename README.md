@@ -1,4 +1,4 @@
-# GAP-URGENet
+# GAP-URGENet: A Generative-Predictive Fusion Framework for Universal Speech Enhancement
 [![arxiv](https://img.shields.io/badge/arXiv-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2604.01832)
 [![demo](https://img.shields.io/badge/Demo-orange?logo=audacity&logoColor=white)](https://xiaobin-rong.github.io/gap-urgenet_demo/)
 [![models](https://img.shields.io/badge/🤗-Models-yellow)](https://huggingface.co/Xiaobin-Rong/gap-urgenet)
