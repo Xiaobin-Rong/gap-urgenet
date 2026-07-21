@@ -1,0 +1,13 @@
+einops==0.8.2
+espnet==202511
+huggingface_hub==0.36.0
+librosa==0.11.0
+numpy==2.5.1
+omegaconf==2.3.0
+ptflops==0.7.5
+scipy==1.18.0
+soundfile==0.13.1
+toml==0.10.2
+torch==2.6.0+cu118
+torchaudio==2.6.0+cu118
+tqdm==4.67.1
